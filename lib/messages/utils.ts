@@ -7,16 +7,21 @@ const SYNTHETIC_MESSAGE_ID = "msg_01234567890123456789012345"
 const SYNTHETIC_PART_ID = "prt_01234567890123456789012345"
 const SYNTHETIC_CALL_ID = "call_01234567890123456789012345"
 
-export const isDeepSeekOrKimi = (providerID: string, modelID: string): boolean => {
+export const shouldUseToolInjection = (providerID: string, modelID: string): boolean => {
     const lowerProviderID = providerID.toLowerCase()
     const lowerModelID = modelID.toLowerCase()
     return (
         lowerProviderID.includes("deepseek") ||
         lowerProviderID.includes("kimi") ||
+        lowerProviderID.includes("google") ||
         lowerModelID.includes("deepseek") ||
-        lowerModelID.includes("kimi")
+        lowerModelID.includes("kimi") ||
+        lowerModelID.includes("gemini")
     )
 }
+
+// Deprecated alias for backward compatibility if needed, though we are updating the caller
+export const isDeepSeekOrKimi = shouldUseToolInjection
 
 export const createSyntheticUserMessage = (
     baseMessage: WithParts,
