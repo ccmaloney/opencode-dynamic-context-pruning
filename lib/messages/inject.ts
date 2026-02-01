@@ -9,7 +9,7 @@ import {
     createSyntheticAssistantMessage,
     createSyntheticUserMessage,
     createSyntheticToolPart,
-    isDeepSeekOrKimi,
+    shouldUseToolInjection,
     isIgnoredUserMessage,
 } from "./utils"
 import { getFilePathFromParameters, isProtectedFilePath } from "../protected-file-patterns"
@@ -159,7 +159,7 @@ export const insertPruneToolContext = (
         const providerID = userInfo.model?.providerID || ""
         const modelID = userInfo.model?.modelID || ""
 
-        if (isDeepSeekOrKimi(providerID, modelID)) {
+        if (shouldUseToolInjection(providerID, modelID)) {
             const toolPart = createSyntheticToolPart(lastNonIgnoredMessage, prunableToolsContent)
             lastNonIgnoredMessage.parts.push(toolPart)
         } else {
